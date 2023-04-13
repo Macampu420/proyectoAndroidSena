@@ -2,52 +2,14 @@ const pool = require('./../conexion');
 
 class Personal{
 
-    devolverDirectivos(){
+    async devolverPersonal(idTipoPersonal){
 
-        return [
-            {
-                fotoPersona: "https://",
-                nombresPersona: "Juan Velez",
-                correoPersona: "example@Directivos",
-                cargoPersona: "directivo",
-                descripcionCargo: "es el directivo xd"
-            }
-        ]
+        let query = "SELECT tbl_persona.foto, tbl_persona.foto, tbl_persona.nombresPersona, tbl_persona.apellidosPersona, tbl_persona.correoPersona, tbl_persona.cargpPersona, tbl_persona.descripcionCargo, tbl_rama.nombreRama FROM tbl_persona INNER JOIN tbl_rama ON tbl_persona.idRama = tbl_rama.idRama WHERE tbl_rama.idRama = ?";
 
-    }
+        let results = await pool.query(query, [idTipoPersonal]);
+        let personal = results.map(persona => JSON.parse(JSON.stringify(persona)));
 
-    devolverInstructores(){
-
-        return [
-            {
-                fotoPersona: "https://",
-                nombresPersona: "Juana Peña",
-                correoPersona: "example@Instructores",
-                cargoPersona: "instructor",
-                descripcionCargo: "es el instructor xd"
-            }
-        ]
-
-    }
-
-    devolverPersonalApoyo(){
-
-        return [
-            {
-                fotoPersona: "https://",
-                nombresPersona: "Panfilo",
-                correoPersona: "example@pApoyo",
-                cargoPersona: "personalApoyo",
-                descripcionCargo: "es el personalApoyo xd"
-            }
-        ]
-
-    }
-
-    devolverPersonal(idTipoPersonal){
-
-        let query = "";
-
+        return personal;
     }
 
 }

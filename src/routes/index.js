@@ -4,26 +4,29 @@ const Personal = require('./../models/Personal');
 
 const objPersonal = new Personal();
 
-router.get('/:tipoPersonal', (req, res) => {
+router.get('/api/:tipoPersonal', async (req, res) => {
+    let personal;
 
     switch(req.params.tipoPersonal){
 
         case 'directivos':
-            res.status(200).json(objPersonal.devolverDirectivos());
+            personal = await objPersonal.devolverPersonal(1);
             break;
             
         case 'instructores':
-            res.status(200).json(objPersonal.devolverInstructores());
+            personal = await objPersonal.devolverPersonal(2);
             break;
             
         case 'personalApoyo':
-            res.status(200).json(objPersonal.devolverPersonalApoyo());
+            personal = await objPersonal.devolverPersonal(3);
             break;
     }
+
+    res.status(200).send(JSON.stringify({personal}));
     res.end();
 });
 
-router.post('/registroPersona', (req, res) => {
+router.get('/registroPersona', async (req, res) => {
 
 })
 
